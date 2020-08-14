@@ -24,12 +24,11 @@ def for_range():
         i += 1
         time.sleep(0.1)
 
-def layer_h_1(COLOR):
+def layer_h_1(color):
     for i in [0, 7, 8, 15, 16, 23, 24, 31, 32, 39, 40, 47, 48, 55, 56, 63]:
-        np[i] = COLOR
+        np[i] = color
         np.write()
-        
-
+ 
 def layer_h_2(COLOR):
     for i in [1, 6, 9, 14, 17, 22, 25, 30, 33, 38, 41, 46, 49, 54, 57, 62]:
         np[i] = COLOR
@@ -46,25 +45,40 @@ def layer_h_4(COLOR):
         np.write()
 
 def drop_all_leds():
-    for i in np:
+    for i in range(64):
         np[i] = BLACK
         np.write()
 
 def change_layers(color):
     layer_h_1(color)
-    time.sleep(0.1)
+    time.sleep(0.03)
     layer_h_2(color)
-    time.sleep(0.1)
+    time.sleep(0.03)
     layer_h_3(color)
-    time.sleep(0.1)
+    time.sleep(0.03)
     layer_h_4(color)
 
+x = 1
+y = 1
+z = 40
+iteration_count = 0
 
-
-x = 100
-y = 50
 color = (0, 0, 0)
-while True:
+while x < 40:
+    iteration_count += 1
+    
     change_layers(color)
     
+    x += 5
+    y += 3
+    z -= 2  
+    if x > 40:
+        x = 0
+    if y > 40:
+        y = 0
+    if z < 2:
+        y = 40
+    #time.sleep(0.01)
+    color = (x, y, z)
     
+drop_all_leds()
