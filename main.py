@@ -3,9 +3,17 @@ from machine import Pin
 import time
 from m5stack import *
 
-np = neopixel.NeoPixel(Pin(26), 64)
+np = neopixel.NeoPixel(Pin(33), 64)
 
-RED = (10, 10, 0)
+#Каждый Охотник Желает Знать Где Сидит Фазан
+RED = (255, 0, 0)
+ORANGE = (255, 165, 0)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+LIGHTBLUE = (191, 239, 255)
+BLUE = (0, 0, 255)
+PURPLE = (160, 32, 240)
+
 BLACK = (0, 0, 0)
 COLOR = (0, 0, 0)
 
@@ -108,6 +116,7 @@ def vertical_row_16(color):
     for i in [60, 61, 62, 63]:
         np[i] = color
         np.write()
+
 # functions to generate good palettes of colors
 # rainbow
 
@@ -150,7 +159,7 @@ color = (100, 0, 100)
     color = (x, y, z)
     '''
 drop_all_leds()
-delay_a = 7
+delay_a = 20
 dark =  (0, 0, 0)
 dark_color = (0, 0, 0)
 color = (10, 25, 25)
@@ -159,9 +168,11 @@ color2 = (0, 0, 0)
 r = 0
 g = 0
 b = 0
+iteration_count1 = 0
+iteration_count2 = 0
 
 # висим в цикле, выполняя действие по нажатию на большую кнопку M5, и выходим, если нажата кнопка Б
-mode = 1
+mode = 3
 if mode == 1:
     while True:
         if btnA.isPressed() == True:
@@ -236,16 +247,30 @@ if mode == 1:
 
 if mode == 2:
     while True:
-        if btnA.isPressed() == True:
+        if btnA.isPressed() == False:
 
             vertical_row_6(color2)
             vertical_row_7(color2)
             vertical_row_10(color2)
             vertical_row_11(color2)
-            r += 17
-            g += 8
-            b += 3
+            r += 3
+            g += 15
+            b += 10
+            if r > 70 or g > 70 or b > 70:
+                r = 0
+                g = 0
+                b = 0
+                iteration_count1 += 1
+            if iteration_count1 > 3:
+                iteration_count2 += 1
+            if iteration_count1 > 2:
+                time.sleep(0.01)
+                change_layers(RED, 100)
+                iteration_count1 = 0
 
+
+
+            color2 = (r, g, b)
 
             vertical_row_1(color)
             time.sleep_ms(delay_a)
@@ -295,8 +320,98 @@ if mode == 2:
             time.sleep_ms(delay_a)
 
             vertical_row_8(dark_color)
-            color2 = (r, g, b)
+            
         else:
             drop_all_leds()
         if btnB.isPressed() == True:
+            break
+
+if mode == 3:
+    while True:
+        if btnA.isPressed() == False:
+
+            vertical_row_6(color2)
+            vertical_row_7(color2)
+            vertical_row_10(color2)
+            vertical_row_11(color2)
+            r += 3
+            g += 15
+            b += 30
+            if r > 70 or g > 70 or b > 70:
+                r = 0
+                g = 0
+                b = 0
+                iteration_count1 += 1
+            if iteration_count1 == 1:
+                change_layers(RED, 10)
+            if iteration_count1 == 2:
+                change_layers(ORANGE, 10)
+            if iteration_count1 == 3:
+                change_layers(YELLOW, 10)
+            if iteration_count1 == 4:
+                change_layers(GREEN, 10)
+            if iteration_count1 == 5:
+                change_layers(LIGHTBLUE, 10)
+            if iteration_count1 == 6:
+                change_layers(BLUE, 10)
+            if iteration_count1 == 7:
+                change_layers(PURPLE, 10)
+                iteration_count1 = 0
+
+            
+            color2 = (r, g, b)
+
+            vertical_row_1(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_1(dark_color)
+            vertical_row_2(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_2(dark_color)
+            vertical_row_3(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_3(dark_color)
+            vertical_row_4(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_4(dark_color)
+            vertical_row_5(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_5(dark_color)
+            vertical_row_12(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_12(dark_color)
+            vertical_row_13(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_13(dark_color)
+            vertical_row_14(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_14(dark_color)
+            vertical_row_15(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_15(dark_color)
+            vertical_row_16(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_16(dark_color)
+            vertical_row_9(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_9(dark_color)
+            vertical_row_8(color)
+            time.sleep_ms(delay_a)
+
+            vertical_row_8(dark_color)
+            
+        else:
+            drop_all_leds()
+        if btnB.isPressed() == True:
+            drop_all_leds()
             break
